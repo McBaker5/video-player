@@ -1,6 +1,5 @@
 // Import the functions you need from the SDKs you need
-import firebase from "firebase/app";
-import "firebase/analytics";
+import firebase from "firebase/compat/app";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,8 +19,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+    const app = firebase.initializeApp(firebaseConfig);
 }
-const analytics = getAnalytics(app); // This caused an error "ReferenceError: window is not defined"
 
 export default firebase;
