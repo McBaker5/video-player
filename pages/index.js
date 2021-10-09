@@ -8,7 +8,7 @@ import firebase from '../firebase/clientApp'
 export const Home = ({ videoURL }) => {
   return (
     <div>
-      <ReactPlayer url={ videoURL } />
+      <ReactPlayer url={ videoURL } playing={true} loop={true} />
     </div>
   );
 };
