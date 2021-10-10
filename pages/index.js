@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css'
 import React from 'react'
 import ReactPlayer from 'react-player'
 import firebase from '../firebase/clientApp'
+<<<<<<< HEAD
 import { render } from 'react-dom'
 import VideoRecorder from 'react-video-recorder'
 export default function Home() {
@@ -29,3 +30,32 @@ export default function Home() {
 // }
 
 // render(<Home />, document.getElementById('root'))
+=======
+
+export const Home = ({ videoURL }) => {
+  return (
+    <div>
+      <ReactPlayer url={ videoURL } playing={true} loop={true} />
+    </div>
+  );
+};
+
+export const getServerSideProps = async () => {
+  const db = firebase.firestore();
+  // Create a reference to a document in the videos collection
+  var docRef = db.collection("videos").doc("nBbL35I9MXVZu0vsq7LL");
+  var videoURL;
+  // Retrieve the video URL from the document
+  await docRef.get().then((doc) => {   
+      videoURL = (doc.data().videoPath);
+  });
+  // Set videoURL prop to the URL
+  return{
+      props: {
+          videoURL: videoURL
+      }
+  }
+};
+
+export default Home;
+>>>>>>> bc868b86ac7078439cd2e393e1470eafb134eec0
