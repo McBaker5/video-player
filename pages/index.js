@@ -5,11 +5,29 @@ import React from 'react'
 import ReactPlayer from 'react-player'
 import firebase from '../firebase/clientApp'
 
-
-export default function Home() {
+export const Home = ({ videoURL }) => {
   return (
     <div>
-      <ReactPlayer url='https://www.youtube.com/watch?v=vwJbALuO-pM' />
+      <ReactPlayer url={ videoURL } playing={true} loop={true} />
     </div>
-  )
-}
+  );
+};
+
+export const getServerSideProps = async () => {
+  const db = firebase.firestore();
+  // Create a reference to a document in the videos collection
+  var docRef = db.collection("videos").doc("nBbL35I9MXVZu0vsq7LL");
+  var videoURL;
+  // Retrieve the video URL from the document
+  await docRef.get().then((doc) => {   
+      videoURL = (doc.data().videoPath);
+  });
+  // Set videoURL prop to the URL
+  return{
+      props: {
+          videoURL: videoURL
+      }
+  }
+};
+
+export default Home;
