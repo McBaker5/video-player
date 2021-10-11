@@ -4,33 +4,6 @@ import styles from '../styles/Home.module.css'
 import React from 'react'
 import ReactPlayer from 'react-player'
 import firebase from '../firebase/clientApp'
-<<<<<<< HEAD
-import { render } from 'react-dom'
-import VideoRecorder from 'react-video-recorder'
-export default function Home() {
-  return (
-    <VideoRecorder
-    rederActions={actionButton => {
-        <actionButton>d</actionButton>
-    }}
-    // onRecordingComplete={videoBlob => {
-
-    //   console.log('videoBlob', videoBlob)
-      
-    // }}
-  />
-  
-  )
-}
-
-// export async function getServerSideProps(context) {
-//   return{
-//    // props: {rederActions},
-//   }
-// }
-
-// render(<Home />, document.getElementById('root'))
-=======
 
 export const Home = ({ videoURL }) => {
   return (
@@ -58,4 +31,3 @@ export const getServerSideProps = async () => {
 };
 
 export default Home;
->>>>>>> bc868b86ac7078439cd2e393e1470eafb134eec0
