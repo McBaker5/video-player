@@ -4,18 +4,20 @@ import firebase from '../../firebase/clientApp'
 const UploadFile = () => {
     const inputFile = useRef(null)
 
-    const uploadFile = async () => {
+    const upload = () => {
         // get file
         var file = inputFile.current.files[0]
+        uploadFile(file)
+    }
+
+    const uploadFile = async ( file ) => {
+        var docRef = firebase.firestore().collection('videos').doc() // leave as .doc() for a random unique doc name to be assigned
         // create a storage ref to videos directory
-        var storageRef = firebase.storage().ref('videos/' + file.name)
+        var storageRef = firebase.storage().ref('videos/' + docRef.id)
         // upload file
         await storageRef.put(file)
-
-
         // Add to firestore
         storageRef.getDownloadURL().then((url) => {
-            var docRef = firebase.firestore().collection('videos').doc() // leave as .doc() for a random unique doc name to be assigned
             docRef.set({
                 description: 'testing firestore document creation when a video is uploaded',
                 enabled: false,
@@ -33,7 +35,7 @@ const UploadFile = () => {
 
     return (
         <div>
-            <input type="file" onChange={uploadFile} ref={inputFile} />
+            <input type="file" onChange={upload} ref={inputFile} />
         </div>
     )
 }
