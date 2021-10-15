@@ -69,7 +69,7 @@ export default function Upload({docRef}) {
             </Flex> 
         </Center>
 
-        <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose} isCentered >
+        <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose} closeOnEsc={false} closeOnOverlayClick={false} isCentered >
             <AlertDialogOverlay>
                 <AlertDialogContent>
                     <Center>
