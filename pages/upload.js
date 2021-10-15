@@ -35,8 +35,8 @@ export default function Upload({docRef}) {
         docRef.set({
             description: '',
             enabled: false,
-            videoPath: url,
-            ID: docRef.id,
+            videoPath: url, // The download url of the video in storage
+            ID: docRef.id,  // The unique id of the document
             likeCount: 0,
             createdAt: firebase.firestore.Timestamp.now(),
             macroTagIDs: [],
@@ -55,8 +55,8 @@ export default function Upload({docRef}) {
         <>
         <Center> 
             <Flex direction='column'>
-                <AspectRatio ratio={.63 / 1}>
-                    <VideoRecorder timeLimit={60000} countdownTime={0} isRecording = {isRecording} // mimeType={[".mp4",".hls",".mov"]}
+                <AspectRatio ratio={.6 / 1}>
+                    <VideoRecorder timeLimit={60000} countdownTime={0} // mimeType={[".mp4",".hls",".mov"]}
                     onRecordingComplete={videoBlob => {
                         uploadFile(videoBlob)
                     }}
@@ -64,17 +64,12 @@ export default function Upload({docRef}) {
                 </AspectRatio>
                 <Flex background='green.200' justifyContent='space-between' display='flex'>
                     <Button>Record</Button>
-                    <Input type="file" onChange={uploadFromButton} ref={inputFile} />
+                    <Input type="file" onChange={uploadFromButton} ref={inputFile} accept=".mp4, .webm, .mov, .mkv" />
                 </Flex>
             </Flex> 
         </Center>
 
-        <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isCentered
-        >
+        <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose} isCentered >
             <AlertDialogOverlay>
                 <AlertDialogContent>
                     <Center>
