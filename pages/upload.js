@@ -65,8 +65,6 @@ export default function Upload({docRef}) {
                     />
                 </AspectRatio>
                 <Flex background='green.200' justifyContent='space-around' display='flex'>
-                    <Button variant='ghost'>Back</Button>
-                    <Button variant='ghost'>Record</Button>
                     <Input type="file" onChange={uploadFromButton} ref={inputFile} />
                 </Flex>
             </Flex> 
