@@ -11,14 +11,16 @@ export default function Upload({docRef}) {
   const [isOpen, setIsOpen] = React.useState(false)
   const onClose = () => setIsOpen(false)
   const cancelRef = React.useRef()
+  const [isRecording, setIsRecording] = React.useState(false)
 
   const uploadFile = async (file) => {
     var docRef = firebase.firestore().collection('videos').doc() // leave as .doc() for a random unique doc name to be assigned
     // create a storage ref to videos directory
-    var storageRef = firebase.storage().ref('videos/' + 'test')//docRef.id)
+    var storageRef = firebase.storage().ref('videos/' + docRef.id)
     setIsOpen(true) // Open progress display
     // upload file
-    await storageRef.put(file).on('state_change',
+    var uploadTask = storageRef.put(file)
+    uploadTask.on('state_change',
       function progress(snapshot) {
         setProgress((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
         if ((snapshot.bytesTransferred / snapshot.totalBytes) === 1) {
@@ -26,6 +28,7 @@ export default function Upload({docRef}) {
         }
       }
     )
+    await uploadTask
 
     // Add to firestore
     storageRef.getDownloadURL().then((url) => {
@@ -40,7 +43,6 @@ export default function Upload({docRef}) {
             microTagIDs: [],
             title: ''
         })
-        .then(alert('Data was successfully sent to firestore'))
     })
   }
 
@@ -54,13 +56,14 @@ export default function Upload({docRef}) {
         <Center> 
             <Flex direction='column'>
                 <AspectRatio ratio={.63 / 1}>
-                    <VideoRecorder timeLimit={60000} countdownTime={0} // mimeType={[".mp4",".hls",".mov"]}
+                    <VideoRecorder timeLimit={60000} countdownTime={0} isRecording = {isRecording} // mimeType={[".mp4",".hls",".mov"]}
                     onRecordingComplete={videoBlob => {
                         uploadFile(videoBlob)
                     }}
                     />
                 </AspectRatio>
-                <Flex background='green.200' justifyContent='space-around' display='flex'>
+                <Flex background='green.200' justifyContent='space-between' display='flex'>
+                    <Button>Record</Button>
                     <Input type="file" onChange={uploadFromButton} ref={inputFile} />
                 </Flex>
             </Flex> 
