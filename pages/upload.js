@@ -13,7 +13,7 @@ export default function Upload({docRef}) {
   const cancelRef = React.useRef()
 
   const uploadFile = async (file) => {
-//    var docRef = firebase.firestore().collection('videos').doc() // leave as .doc() for a random unique doc name to be assigned
+    var docRef = firebase.firestore().collection('videos').doc() // leave as .doc() for a random unique doc name to be assigned
     // create a storage ref to videos directory
     var storageRef = firebase.storage().ref('videos/' + 'test')//docRef.id)
     setIsOpen(true) // Open progress display
@@ -27,8 +27,6 @@ export default function Upload({docRef}) {
       }
     )
 
-    
-    /**
     // Add to firestore
     storageRef.getDownloadURL().then((url) => {
         docRef.set({
@@ -44,9 +42,7 @@ export default function Upload({docRef}) {
         })
         .then(alert('Data was successfully sent to firestore'))
     })
-     */
   }
-
 
     const uploadFromButton = () => {
         // get file
@@ -70,7 +66,6 @@ export default function Upload({docRef}) {
             </Flex> 
         </Center>
 
-        
         <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
