@@ -4,6 +4,7 @@ import { render } from 'react-dom'
 import { useRef, useState } from 'react'
 import { CircularProgress, IconButton, Input, AspectRatio, Flex, Center, Button, AlertDialog, AlertDialogOverlay, AlertDialogBody, AlertDialogContent } from "@chakra-ui/react"
 import firebase from '../firebase/clientApp'
+import Video from '../components/Video'
 
 export default function Upload({docRef}) {
   const inputFile = useRef(null)
@@ -56,11 +57,11 @@ export default function Upload({docRef}) {
         <Center> 
             <Flex direction='column'>
                 <AspectRatio ratio={.6 / 1}>
-                    <VideoRecorder timeLimit={60000} countdownTime={0} // mimeType={[".mp4",".hls",".mov"]}
-                    onRecordingComplete={videoBlob => {
-                        uploadFile(videoBlob)
-                    }}
-                    />
+                        <VideoRecorder timeLimit={60000} countdownTime={0} isOnInitially={true} //ref={this.videoRecorderRef} // mimeType={[".mp4",".hls",".mov"]}
+                        onRecordingComplete={videoBlob => {
+                            uploadFile(videoBlob)
+                        }}
+                        />
                 </AspectRatio>
                 <Flex background='green.200' justifyContent='space-between' display='flex'>
                     <Button>Record</Button>
