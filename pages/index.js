@@ -9,7 +9,6 @@ import Hls from "hls.js"
 import Icon from '../images/vprojectold-icon-ju-30_6.jpg'
 import Icon2 from '../images/playbutton-2.png'
 export const Home = ({ videoURL, corsControl }) => {
-
    
   return (
     <>
@@ -32,6 +31,7 @@ export const getServerSideProps = async (context) => {
   context.res.setHeader('Access-Control-Allow-Origin','*')
   const db = firebase.firestore();
   // Create a reference to a document in the videos collection
+
   var docRef = db.collection("videos").doc("7OKfHl2p3hhbdd9MmK8i");
   var videoURL;
   // Retrieve the video URL from the document
