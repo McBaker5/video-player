@@ -21,14 +21,18 @@ export default function Upload({docRef}) {
     await storageRef.put(file).on('state_change',
       function progress(snapshot) {
         setProgress((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+        if ((snapshot.bytesTransferred / snapshot.totalBytes) === 1) {
+            setIsOpen(false) // Close progress display when upload is complete
+        }
       }
     )
 
+    
     /**
     // Add to firestore
     storageRef.getDownloadURL().then((url) => {
         docRef.set({
-            description: 'testing firestore document creation when a video is uploaded',
+            description: '',
             enabled: false,
             videoPath: url,
             ID: docRef.id,
@@ -36,7 +40,7 @@ export default function Upload({docRef}) {
             createdAt: firebase.firestore.Timestamp.now(),
             macroTagIDs: [],
             microTagIDs: [],
-            title: 'Test'
+            title: ''
         })
         .then(alert('Data was successfully sent to firestore'))
     })
@@ -53,15 +57,16 @@ export default function Upload({docRef}) {
         <>
         <Center> 
             <Flex direction='column'>
-                <AspectRatio maxW='500px' ratio={10.5 / 16}>
+                <AspectRatio ratio={.63 / 1}>
                     <VideoRecorder timeLimit={60000} countdownTime={0} // mimeType={[".mp4",".hls",".mov"]}
                     onRecordingComplete={videoBlob => {
                         uploadFile(videoBlob)
                     }}
                     />
                 </AspectRatio>
-                <Flex direction='row' background='green.200'>
+                <Flex background='green.200' justifyContent='space-around' display='flex'>
                     <Button variant='ghost'>Back</Button>
+                    <Button variant='ghost'>Record</Button>
                     <Input type="file" onChange={uploadFromButton} ref={inputFile} />
                 </Flex>
             </Flex> 
@@ -72,6 +77,7 @@ export default function Upload({docRef}) {
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
         onClose={onClose}
+        isCentered
         >
             <AlertDialogOverlay>
                 <AlertDialogContent>
