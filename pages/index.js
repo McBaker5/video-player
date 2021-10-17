@@ -17,7 +17,6 @@ super(props);
     hasRendered:false
   };
   this.initPlayButton = this.initPlayButton.bind(this);
-  this.renderImage = this.renderImage.bind(this);
 }
 stateChange = async () => {
   this.setState({
