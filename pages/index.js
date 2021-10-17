@@ -4,28 +4,46 @@ import styles from '../styles/Home.module.css'
 import React from 'react'
 import ReactPlayer from 'react-player'
 import firebase from '../firebase/clientApp'
-import { ChakraProvider,Box,AspectRatio} from "@chakra-ui/react"
-import Hls from "hls.js"
-import Icon from '../images/vprojectold-icon-ju-30_6.jpg'
-import Icon2 from '../images/playbutton-2.png'
-export const Home = ({ videoURL, corsControl }) => {
-   
+import { ChakraProvider,Box,AspectRatio,Button} from "@chakra-ui/react"
+import Icon from '../images/playbutton-2.png'
+
+export default class Home extends React.Component{
+constructor(props) {
+super(props);
+
+  this.state={
+    playButtonClicked:true,
+    locked:false
+  };
+  this.initPlayButton = this.initPlayButton.bind(this);
+}
+stateChange = async () => {
+  this.setState({
+    [ReactPlayer.playing]: !this.state.playButtonClicked,
+  });
+}
+
+initPlayButton= async ()=>{
+  this.playButtonClicked=!this.playButtonClicked;
+};
+
+render = () => {
   return (
     <>
     <Head >
     <script async src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     </Head>
     <AspectRatio  ratio={1.9}>    
-    <Box bg="black" h="100%">
+    <Box bg="black" h="100%" onClick={this.initPlayButton}>
         <div >
-          <ReactPlayer url={ videoURL} playing={true} loop={true} controls={false} light={<Icon2></Icon2>} />
+          <ReactPlayer url={ this.props.videoURL} playing={this.playButtonClicked}  onClick={this.stateChange} loop={true} controls={false}  light={Icon.toString() } />
         </div>
     </Box>
     </AspectRatio>
     </>
   );
 };
-
+};
 
 export const getServerSideProps = async (context) => {
   context.res.setHeader('Access-Control-Allow-Origin','*')
@@ -43,9 +61,8 @@ export const getServerSideProps = async (context) => {
     
       props: {
           videoURL: videoURL,
-          corsControl: context.res.getHeader('Access-Control-Allow-Origin')
       }
   }
 };
 
-export default Home;
+// // export default Home;
