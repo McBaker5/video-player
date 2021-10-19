@@ -11,24 +11,39 @@ import Icon from '../public/images/betterTriangle.png'
 export default class Player extends React.Component{
 constructor(props) {
 super(props);
-this.myRef = ReactPlayer.onSeek;
+
   this.state={
     playButtonClicked:true,
-    duration:"",
     elapsedTime:""
-    
   };
   this.initPlayButton = this.initPlayButton.bind(this);
+  this.handleSeek = this.handleSeek.bind(this);
 }
+
 stateChange = async () => {
   this.setState({
     [ReactPlayer.playing]: !this.state.playButtonClicked,
   });
 }
-initPlayButton= async ()=>{
+
+//This is responsible for initing the seeker, and pausing the video.
+initPlayButton= async (e)=>{
+  e.preventDefault();
   this.playButtonClicked=!this.playButtonClicked;
-  console.log(this.elapsedTime); //this will be removed next PR
+  if(!this.elapsedTime )
+     this.elapsedTime=0.0;
 };
+
+//This code seeks to the proper position of the video when resuming from a pause
+handleSeek = async () => {
+  console.log("called by",this.elapsedTime);
+  this.player.seekTo(this.elapsedTime);
+}
+
+//This enables use of ReactPlayer methods.
+ref = player =>{
+  this.player = player
+}
 
 render = () => {
   return (
@@ -42,9 +57,9 @@ render = () => {
           <ReactPlayer url={ this.props.videoURL} playing={this.playButtonClicked }  onClick={this.stateChange} loop={true} controls={false} 
           playIcon={<button><img src="images/betterTriangle.png" width="50px" height="50px"/></button>}
           light={!this.playButtonClicked}
-          onDuration={(duration) => {this.duration = duration }}
           onProgress={(played) => {this.elapsedTime = played.playedSeconds}}
-
+          onPlay={this.handleSeek}
+          ref ={this.ref}
         />
         </div>
     </Box>
