@@ -25,7 +25,6 @@ stateChange = async () => {
     [ReactPlayer.playing]: !this.state.playButtonClicked,
   });
 }
-
 //This is responsible for initing the seeker, and pausing the video.
 initPlayButton= async (e)=>{
   e.preventDefault();
@@ -36,7 +35,6 @@ initPlayButton= async (e)=>{
 
 //This code seeks to the proper position of the video when resuming from a pause
 handleSeek = async () => {
-  console.log("called by",this.elapsedTime);
   this.player.seekTo(this.elapsedTime);
 }
 
