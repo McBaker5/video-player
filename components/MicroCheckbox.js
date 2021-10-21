@@ -31,7 +31,11 @@ export default class MicroCheckbox extends React.Component {
 
     render() {
         var microTags = this.props.microTags
-        var checkboxes = microTags.map((el) => <Checkbox key={el} value={el} name={el} onChange={this.handleInputChange}>{el}</Checkbox>);
+        var microTagNames = this.props.microTagNames
+        var checkboxes = [];
+        for (let i = 0; i < microTags.length; i++) {
+            checkboxes[i] = <Checkbox key={microTags[i]} value={microTags[i]} name={microTags[i]} onChange={this.handleInputChange}>{microTagNames[i]}</Checkbox>;
+        }
 
         return (
             <form>

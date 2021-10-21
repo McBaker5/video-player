@@ -31,7 +31,12 @@ export default class MacroCheckbox extends React.Component {
 
     render() {
         var macroTags = this.props.macroTags
-        var checkboxes = macroTags.map((el) => <Checkbox key={el} value={el} name={el} onChange={this.handleInputChange}>{el}</Checkbox>);
+        var macroTagNames = this.props.macroTagNames
+        var checkboxes = []
+        for (let i = 0; i < macroTags.length; i++) {
+            checkboxes[i] = <Checkbox key={macroTags[i]} value={macroTags[i]} name={macroTags[i]} onChange={this.handleInputChange}>{macroTagNames[i]}</Checkbox>;
+        }
+        //var checkboxes = macroTags.map((el) => <Checkbox key={el} value={el} name={el} onChange={this.handleInputChange}>{el}</Checkbox>);
 
         return (
             <form>

@@ -27,7 +27,11 @@ export default class EventSelect extends React.Component {
 
     render() {
         var events = this.props.events
-        var options = events.map((el) => <option key={el} value={el}>{el}</option>); //// Check .map documentation to work with JSON like setOptions
+        var eventNames = this.props.eventNames
+        var options = []//events.map((el) => <option key={el} value={el}>{eventName}</option>);
+        for (let i = 0; i < events.length; i++) {
+            options[i] = <option key={events[i]} value={events[i]}>{eventNames[i]}</option>;
+        }
         return (
             <form onSubmit={this.handleSubmit}>        
                 <label>

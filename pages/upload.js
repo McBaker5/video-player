@@ -47,7 +47,6 @@ export default function Upload() {
             title: ''
         })
     })
-
     router.push("./videouploadguide/" + docRef.id)
   }
 

@@ -11,7 +11,7 @@ import { updateMacroTag, updateMicroTag, updateEvent } from '../../firebase/vide
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from "next/router"
 
-const videouploadguide = ({events, microTags, macroTags, vidID}) => {
+const videouploadguide = ({events, eventNames, microTags, microTagNames, macroTags, macroTagNames, vidID}) => {
     const router = useRouter()
 
     return (
@@ -25,11 +25,11 @@ const videouploadguide = ({events, microTags, macroTags, vidID}) => {
             <DescriptionInput vidID={vidID} />
             <FormHelperText>description of the video</FormHelperText>
             <FormLabel>Macro tags</FormLabel>
-            <MacroCheckbox macroTags={macroTags} vidID={vidID} />
+            <MacroCheckbox macroTags={macroTags} macroTagNames={macroTagNames} vidID={vidID} />
             <FormLabel>Micro tags</FormLabel>
-            <MicroCheckbox microTags={microTags} vidID={vidID} />
+            <MicroCheckbox microTags={microTags} microTagNames={microTagNames} vidID={vidID} />
             <FormLabel>Participate in event?</FormLabel>
-            <EventSelect events={events} vidID={vidID} />
+            <EventSelect events={events} eventNames={eventNames} vidID={vidID} />
         </FormControl>
 
         </>
@@ -40,24 +40,31 @@ export const getServerSideProps = async pageContext => {
     const vidID = pageContext.query.videoID;
     const db = firebase.firestore();
  
-    //pulls all videos from the path and renders them as a single string
-    var docRef = await db.collection("events").get().then(q => q.docs.map(doc =>doc.data().name));
+    //pulls all events from the path and renders them as a single string
+    var docRef = await db.collection("events").get().then(q => q.docs.map(doc =>doc.data().ID));
     var events = docRef.toString().split("\,"); // splits that string
-    docRef = await db.collection("microTags").get().then(q => q.docs.map(doc =>doc.data().name));
+    docRef = await db.collection("events").get().then(q => q.docs.map(doc =>doc.data().name));
+    var eventNames = docRef.toString().split("\,");
+    docRef = await db.collection("microTags").get().then(q => q.docs.map(doc =>doc.data().ID));
     var microTags = docRef.toString().split("\,");
-    docRef = await db.collection("macroTags").get().then(q => q.docs.map(doc =>doc.data().name));
+    docRef = await db.collection("microTags").get().then(q => q.docs.map(doc =>doc.data().name));
+    var microTagNames = docRef.toString().split("\,");
+    docRef = await db.collection("macroTags").get().then(q => q.docs.map(doc =>doc.data().ID));
     var macroTags = docRef.toString().split("\,");
+    docRef = await db.collection("macroTags").get().then(q => q.docs.map(doc =>doc.data().name));
+    var macroTagNames = docRef.toString().split("\,");
    
     return {
         props: {
             events: events,
+            eventNames: eventNames,
             microTags: microTags,
+            microTagNames: microTagNames,
             macroTags: macroTags,
+            macroTagNames: macroTagNames,
             vidID: vidID,
         }
     }
 };
 
 export default videouploadguide;
-
-// onSubmit={eventSubmit}
