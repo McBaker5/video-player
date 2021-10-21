@@ -13,11 +13,6 @@ import { useRouter } from "next/router"
 
 const videouploadguide = ({events, microTags, macroTags, vidID}) => {
     const router = useRouter()
-    const [macroArray, setMacroArray] = useState([])
-    const [checkedItems, setCheckedItems] = useState([false, false, false, false, false])
-    const [loading, setLoading] = useState()
-    const toast = useToast()
-    var successUpdate = false
 
     return (
         <>
