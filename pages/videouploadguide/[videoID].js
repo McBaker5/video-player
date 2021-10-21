@@ -19,49 +19,6 @@ const videouploadguide = ({events, microTags, macroTags, vidID}) => {
     const toast = useToast()
     var successUpdate = false
 
-
-    const handleSubmit = async () => {
-        setLoading(true)
-        const response = await updateMacroTag(macroArray)////updateMacroTag(macroArray)
-        if (response.error) {
-            toast({
-                title: "Something went wrong",
-                description: response.error,
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-            })
-        }
-        else {
-            successUpdate = true
-        }
-        setLoading(false)
-        if (successUpdate) {
-            //router.push("./microtags")
-        }
-    }
-
-    const eventSubmit = async ({eventValue}) => {
-        setLoading(true)
-        const response = await updateEvent(eventValue)////updateMacroTag(macroArray)
-        if (response.error) {
-            toast({
-                title: "Something went wrong",
-                description: response.error,
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-            })
-        }
-        else {
-            successUpdate = true
-        }
-        setLoading(false)
-        if (successUpdate) {
-            //router.push("./microtags")
-        }
-    }
-
     return (
         <>
 
