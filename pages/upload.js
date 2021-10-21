@@ -5,14 +5,16 @@ import { useRef, useState } from 'react'
 import { CircularProgress, IconButton, Input, AspectRatio, Flex, Center, Button, AlertDialog, AlertDialogOverlay, AlertDialogBody, AlertDialogContent } from "@chakra-ui/react"
 import firebase from '../firebase/clientApp'
 import Video from '../components/Video'
+import { useRouter } from "next/router"
 
-export default function Upload({docRef}) {
+export default function Upload() {
+  const router = useRouter()
   const inputFile = useRef(null)
   const [progressVal, setProgress] = useState(0)
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const onClose = () => setIsOpen(false)
-  const cancelRef = React.useRef()
-  const [isRecording, setIsRecording] = React.useState(false)
+  const cancelRef = useRef()
+  const [isRecording, setIsRecording] = useState(false)
 
   const uploadFile = async (file) => {
     var docRef = firebase.firestore().collection('videos').doc() // leave as .doc() for a random unique doc name to be assigned
@@ -32,7 +34,7 @@ export default function Upload({docRef}) {
     await uploadTask
 
     // Add to firestore
-    storageRef.getDownloadURL().then((url) => {
+    await storageRef.getDownloadURL().then((url) => {
         docRef.set({
             description: '',
             enabled: false,
@@ -45,6 +47,8 @@ export default function Upload({docRef}) {
             title: ''
         })
     })
+
+    router.push("./videouploadguide/" + docRef.id)
   }
 
     const uploadFromButton = () => {
